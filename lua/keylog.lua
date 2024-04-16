@@ -119,7 +119,7 @@ local events = {
 	"ShellFilterPost",
 	"SourcePre",
 	"SourcePost",
-	"SourceCmd",
+	-- "SourceCmd",
 	"SpellFileMissing",
 	"StdinReadPost",
 	"StdinReadPre",
