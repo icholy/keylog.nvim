@@ -161,12 +161,6 @@ function M.setup()
         })
     end, keylog_ns)
 
-    vim.api.nvim_create_user_command('KeyLog',function()
-        for e in keylog:values() do
-            vim.print(e.time .. " " .. e.event .. ": " .. vim.inspect(e.data))
-        end
-    end, {})
-
     vim.api.nvim_create_autocmd(events, {
         group = group,
         callback = function (ev)
@@ -177,6 +171,15 @@ function M.setup()
             })
         end
     })
+
+    vim.api.nvim_create_user_command('KeyLog', function(opts)
+        for e in keylog:values() do
+            local line = e.time .. " " .. e.event .. ": " .. vim.inspect(e.data)
+            if string.find(line, opts.args) then
+                vim.print(line)
+            end
+        end
+    end, { nargs = '?' })
 end
 
 function M.log()
