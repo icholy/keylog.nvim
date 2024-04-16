@@ -8,32 +8,28 @@ function RingBuffer.new(cap)
     buffer.data = {}
     buffer.head = 1
     buffer.tail = 1
-    buffer.count = 0
+    buffer.len = 0
     return buffer
 end
 
 function RingBuffer:push(item)
     self.data[self.head] = item
     self.head = (self.head % self.cap) + 1
-    if self.count == self.cap then
+    if self.len == self.cap then
         self.tail = (self.tail % self.cap) + 1
     else
-        self.count = self.count + 1
+        self.len = self.len + 1
     end
-end
-
-function RingBuffer:size()
-    return self.count
 end
 
 function RingBuffer:values()
     local index = self.tail
-    local count = 0
+    local n = 0
     return function()
-        if count < self.count then
+        if n < self.len then
             local item = self.data[index]
             index = (index % self.cap) + 1
-            count = count + 1
+            n = n + 1
             return item
         end
     end
