@@ -148,9 +148,9 @@ local events = {
 local M = {}
 
 local keylog = RingBuffer.new(100);
+local ns = vim.api.nvim_create_namespace('keylog')
 
 function M.setup()
-    local ns = vim.api.nvim_create_namespace('keylog')
 
     vim.on_key(function (key, typed)
         keylog:push({
@@ -159,7 +159,7 @@ function M.setup()
             data = key,
             typed = typed,
         })
-    end, keylog_ns)
+    end, ns)
 
     vim.api.nvim_create_autocmd(events, {
         group = group,
